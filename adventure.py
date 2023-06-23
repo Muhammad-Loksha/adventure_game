@@ -134,26 +134,39 @@ def container_stage(counter, randoms):
     container = randoms["container"]
     print_sleep(f"Let's see what is inside this {container}.")
     container_title = container.capitalize()
+    # ['Atlatl and Spear', 'Boomerang', 'Chakram', 'Crossbow', 'Javelin', 'Shuriken']
+    first_weapons = ["Bow", "Crossbow"]
+    first_weapon = random.choice(first_weapons)
+    randoms["first_weapon"] = first_weapon
+    throing_weapons = ["Atlatl", "Boomerang", "Chakram", "Javelin", "Shuriken"]
+    second_weapons = throing_weapons
+    second_weapon = random.choice(second_weapons)
+    randoms["second_weapon"] = second_weapon
+    third_weapons = throing_weapons
+    third_weapon = random.choice(third_weapons)
+    randoms["third_weapon"] = third_weapon
     print_sleep(f"{container_title} Contents: ")
-    print_sleep("   * 1 Bow")
-    print_sleep("   * 3 Arrows")
-    print_sleep("   * 1 Knife")
-    print_sleep("1 - Take the bow and the arrows")
-    print_sleep("2 - Take the knife")
+    print_sleep(f"   * 1 {first_weapon}")
+    print_sleep(f"   * 3 {second_weapon}")
+    if third_weapon == second_weapon:
+        third_weapon = "Knife"
+    print_sleep(f"1 - Take the {first_weapon} and the {second_weapon}s")
+    print_sleep(f"2 - Take the {third_weapon}")
     while True:
         user_number = input("Please enter 1 or 2: ")
         if user_number == "1":
             counter += 3
-            right_path(counter, "bow_and_arrows")
+            right_path(counter, [first_weapon, second_weapon], randoms)
             break
         if user_number == "2":
             counter -= 2
-            right_path(counter, "knife")
+            right_path(counter, [third_weapon], randoms)
             break
 
 
-def right_path(counter, items):
-    print2_sleep("You found the king's room,",
+def right_path(counter, items, randoms):
+    character = randoms["character"]
+    print2_sleep(f"You found the {character}'s room,",
                   " but there are two guards in front of it.")
     print_sleep("You have to fight them to get in.")
     if items == "bow_and_arrows":
