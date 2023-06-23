@@ -84,7 +84,7 @@ def stage1(counter, randoms):
             break
         if user_number == "2":
             counter += 1
-            dark_forest_stage(counter, False, randoms)
+            place2_stage(counter, False, randoms)
             break
 
 
@@ -101,7 +101,7 @@ def place1_stage(counter, randoms):
         user_number = input("Please enter 1 or 2: ")
         if user_number == "1":
             counter += 1
-            right_path(counter, "nothing", randoms)
+            right_path(counter, randoms)
             break
         if user_number == "2":
             counter += 1
@@ -126,7 +126,7 @@ def left_path(counter, randoms):
             break
         if user_number == "2":
             counter -= 1
-            right_path(counter, "nothing", randoms)
+            right_path(counter, randoms)
             break
 
 
@@ -134,7 +134,6 @@ def container_stage(counter, randoms):
     container = randoms["container"]
     print_sleep(f"Let's see what is inside this {container}.")
     container_title = container.capitalize()
-    # ['Atlatl and Spear', 'Boomerang', 'Chakram', 'Crossbow', 'Javelin', 'Shuriken']
     first_weapons = ["Bow", "Crossbow"]
     first_weapon = random.choice(first_weapons)
     throing_weapons = ["Atlatl", "Boomerang", "Chakram", "Javelin", "Shuriken"]
@@ -172,7 +171,7 @@ def right_path(counter, randoms):
     if randoms.has_key("first_weapon"):
         first_weapon = randoms["first_weapon"]
         second_weapon = randoms["second_weapon"]
-        print_sleep(f"1 - Use your {first_weapon})
+        print_sleep(f"1 - Use your {first_weapon}")
         print_sleep("2 - Use your hands")
         while True:
             user_number = input("Please enter 1 or 2: ")
@@ -298,18 +297,22 @@ def creature2_stage(counter, key, randoms):
         user_number = input("Please enter 1 or 2: ")
         if user_number == "1":
             counter += 2
-            dragon(counter, "diamond_sword", key)
+            randoms["powerful_weapon"] = powerful_weapon
+            creature_stage(counter, randoms, key)
             break
         if user_number == "2":
             counter -= 2
-            dragon(counter, "stick", key)
+            randoms["poor_weapon"] = poor_weapon
+            creature_stage(counter, randoms, key)
             break
 
-def dragon(counter, item, key):
-    print2_sleep("The little fairy enters a dark cave,",
+def creature_stage(counter, randoms, key):
+    creature2 = randoms["creature2"]
+    creature = randoms["creature"]
+    print2_sleep(f"The {creature2} enters a dark cave,",
      " then shines and disappears.")
     print_sleep("You are now slowly entering this cave")
-    print_sleep("What luck You found the dragon!")
+    print_sleep(f"What luck You found the {creature}!")
     print_sleep("It's in a locked cage!")
     print_sleep("1 - Open the lock with the key")
     print2_sleep("2 - Open the lock with your hands",
@@ -319,25 +322,28 @@ def dragon(counter, item, key):
         if user_number == "1":
             if key is True:
                 print_sleep("You opened the lock.")
-                print_sleep("There are skeletons next to the sleeping dragon.")
+                print_sleep(f"There are skeletons next to the sleeping {creature}.")
                 print_sleep("The place looks really scary.")
-                print_sleep("Oh my gosh, the dragon has awakened!!")
+                print_sleep(f"Oh my gosh, the {creature} has awakened!!")
                 print2_sleep("You must kill him immediately",
                  " before he eats you!")
-                if item == "diamond_sword":
-                    powerful_item(counter)
+                if randoms.has_key("powerful_weapon"):
+                    powerful_item(counter, randoms)
                 else:
-                    print2_sleep(f"Your {item} is weak.",
-                     " You can't fight the dragon.")
+                    poor_weapon = randoms["poor_weapon"]
+                    print2_sleep(f"Your {poor_weapon} is weak.",
+                     f" You can't fight the {creature}.")
                     lose_stage(counter)
             else:
+                character = randoms["character"]
+                place1 = randoms["place1"]
                 print2_sleep("You don't have the key,",
-                 " Find it in the King's castle")
+                 f" Find it in the {character}'s {place1}")
                 while True:
-                    message = "Please enter 1 to go to the King's Castle: "
+                    message = f"Please enter 1 to go to the {character}'s {place1}: "
                     user_number2 = input(message)
                     if user_number2 == "1":
-                        king_castle_stage(counter)
+                        place1_stage(counter, randoms)
                         break
             break
         if user_number == "2":
@@ -346,24 +352,26 @@ def dragon(counter, item, key):
             print_sleep("You must use the key.")
 
 
-def powerful_item(counter):
-    print_sleep("You can use your diamond sword.")
+def powerful_item(counter, randoms):
+    powerful_weapon = randoms["powerful_weapon"]
+    print_sleep(f"You can use your {powerful_weapon}.")
     while True:
         user_number = input("Please enter 1 to use it: ")
         if user_number == "1":
-            dragon_fight(counter)
+            creature_fight(counter, randoms)
             break
 
 
-def dragon_fight(counter):
-    print_sleep("Now kill the dragon quickly!!")
+def creature_fight(counter, randoms):
+    creature = randoms["creature"]
+    print_sleep(f"Now kill the {creature} quickly!!")
     while True:
         user_number = input("Please enter 1 to kill it: ")
         if user_number == "1":
             counter += 3
             print2_sleep("You ride on top of the",
-                " dragon and slash its neck!")
-            winning_stage(counter)
+                f" {creature} and slash its neck!")
+            winning_stage(counter, randoms)
             break
 
 
@@ -379,8 +387,9 @@ def play_again(counter):
             sys.exit()
 
 
-def winning_stage(counter):
-    print_sleep("Finally You Killed the dragon and Saved the villagers.")
+def winning_stage(counter, randoms):
+    creature = randoms["creature"]
+    print_sleep(f"Finally You Killed the {creature} and Saved the peoples.")
     print_sleep("Congratulations! You won!")
     play_again(counter)
 
