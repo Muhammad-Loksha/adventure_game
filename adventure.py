@@ -60,7 +60,7 @@ def stage0():
     print2_sleep(f"There is a rumor that the {character} of the {place0}",
         " is good on the outside and evil on the inside")
     print2_sleep(f"As he/she uses a {creature} to kill anyone who disagrees",
-        " with his opinion or gets in his way, even the innocent.")
+        " with his opinion or gets in his/her way, even the innocent.")
     print2_sleep(f"Behind you there is a dangerous dark {place2} in",
         " which some strange things are happening!")
     print2_sleep(f"You must save the people of your {place0} from",
@@ -146,6 +146,7 @@ def container_stage(counter, randoms):
     print_sleep(f"   * 3 {second_weapon}")
     if third_weapon == second_weapon:
         third_weapon = "Knife"
+    print_sleep(f"   * 1 {third_weapon}")
     print_sleep(f"1 - Take the {first_weapon} and the {second_weapon}s")
     print_sleep(f"2 - Take the {third_weapon}")
     while True:
@@ -168,10 +169,10 @@ def right_path(counter, randoms):
     print2_sleep(f"You found the {character}'s room,",
                   " but there are two guards in front of it.")
     print_sleep("You have to fight them to get in.")
-    if randoms.has_key("first_weapon"):
+    if "first_weapon" in randoms:
         first_weapon = randoms["first_weapon"]
         second_weapon = randoms["second_weapon"]
-        print_sleep(f"1 - Use your {first_weapon}")
+        print_sleep(f"1 - Use your {first_weapon} and {second_weapon}s")
         print_sleep("2 - Use your hands")
         while True:
             user_number = input("Please enter 1 or 2: ")
@@ -193,7 +194,7 @@ def right_path(counter, randoms):
                              " armed.")
                 lose_stage(counter)
                 break
-    elif randoms.has_key("third_weapon"):
+    elif "third_weapon" in randoms:
         third_weapon = randoms["third_weapon"]
         print_sleep(f"1 - Use your {third_weapon}")
         print_sleep("2 - Use your hands")
@@ -325,9 +326,9 @@ def creature_stage(counter, randoms, key):
                 print_sleep(f"There are skeletons next to the sleeping {creature}.")
                 print_sleep("The place looks really scary.")
                 print_sleep(f"Oh my gosh, the {creature} has awakened!!")
-                print2_sleep("You must kill him immediately",
+                print2_sleep("You must kill it immediately",
                  " before he eats you!")
-                if randoms.has_key("powerful_weapon"):
+                if "powerful_weapon" in randoms:
                     powerful_item(counter, randoms)
                 else:
                     poor_weapon = randoms["poor_weapon"]
