@@ -137,14 +137,11 @@ def container_stage(counter, randoms):
     # ['Atlatl and Spear', 'Boomerang', 'Chakram', 'Crossbow', 'Javelin', 'Shuriken']
     first_weapons = ["Bow", "Crossbow"]
     first_weapon = random.choice(first_weapons)
-    randoms["first_weapon"] = first_weapon
     throing_weapons = ["Atlatl", "Boomerang", "Chakram", "Javelin", "Shuriken"]
     second_weapons = throing_weapons
     second_weapon = random.choice(second_weapons)
-    randoms["second_weapon"] = second_weapon
     third_weapons = throing_weapons
     third_weapon = random.choice(third_weapons)
-    randoms["third_weapon"] = third_weapon
     print_sleep(f"{container_title} Contents: ")
     print_sleep(f"   * 1 {first_weapon}")
     print_sleep(f"   * 3 {second_weapon}")
@@ -156,35 +153,40 @@ def container_stage(counter, randoms):
         user_number = input("Please enter 1 or 2: ")
         if user_number == "1":
             counter += 3
-            right_path(counter, [first_weapon, second_weapon], randoms)
+            randoms["first_weapon"] = first_weapon
+            randoms["second_weapon"] = second_weapon
+            right_path(counter, randoms)
             break
         if user_number == "2":
             counter -= 2
-            right_path(counter, [third_weapon], randoms)
+            randoms["third_weapon"] = third_weapon
+            right_path(counter, randoms)
             break
 
 
-def right_path(counter, items, randoms):
+def right_path(counter, randoms):
     character = randoms["character"]
     print2_sleep(f"You found the {character}'s room,",
                   " but there are two guards in front of it.")
     print_sleep("You have to fight them to get in.")
-    if items == "bow_and_arrows":
-        print_sleep("1 - Use your bow")
+    if randoms.has_key("first_weapon"):
+        first_weapon = randoms["first_weapon"]
+        second_weapon = randoms["second_weapon"]
+        print_sleep(f"1 - Use your {first_weapon})
         print_sleep("2 - Use your hands")
         while True:
             user_number = input("Please enter 1 or 2: ")
             if user_number == "1":
                 counter += 1
                 print_sleep("You hit the first guard!")
-                print_sleep("You have 2 arrows left.")
+                print_sleep(f"You have 2 {second_weapon}s left.")
                 print_sleep("You didn't hit the second guard!!")
-                print2_sleep("You only have one arrow left,",
+                print2_sleep(f"You only have one {second_weapon} left,",
                               " so you only have one chance!")
                 print_sleep("Watch out he is approaching you!!!")
                 print2_sleep("Finally you hit him and",
-                             " you can now enter the king's room.")
-                king_room(counter)
+                             f" you can now enter the {character}'s room.")
+                character_room(counter, randoms)
                 break
             if user_number == "2":
                 counter -= 3
@@ -192,14 +194,15 @@ def right_path(counter, items, randoms):
                              " armed.")
                 lose_stage(counter)
                 break
-    elif items == "knife":
-        print_sleep("1 - Use your knife")
+    elif randoms.has_key("third_weapon"):
+        third_weapon = randoms["third_weapon"]
+        print_sleep(f"1 - Use your {third_weapon}")
         print_sleep("2 - Use your hands")
         while True:
             user_number = input("Please enter 1 or 2: ")
             if user_number == "1":
                 counter -= 2
-                print2_sleep("You throw your knife at the first",
+                print2_sleep(f"You throw your {third_weapon} at the first",
                               " guard, and you actually kill him, but...")
                 print2_sleep("before you can pick up your knife, the second",
                               " guard managed to stab you with his spear!!!")
@@ -219,21 +222,24 @@ def right_path(counter, items, randoms):
         lose_stage(counter)
 
 
-def king_room(counter):
-    print_sleep("You have entered the king's room.")
-    print2_sleep("The king is sleeping in his bed, so you have",
+def character_room(counter, randoms):
+    character = randoms["character"]
+    creature = randoms["creature"]
+    place2 = randoms["place2"]
+    print_sleep(f"You have entered the {character}'s room.")
+    print2_sleep(f"The {character} is sleeping in his bed, so you have",
                   " to sneak up on him without making any noises,")
-    print_sleep(" or he will wake up and you don't want him either.")
-    print2_sleep("You found a necklace on the king's neck and the necklace",
-                  " had a golden key emblazoned with a symbol of a dragon!")
+    print_sleep(" or he/she will wake up and you don't want him/her either.")
+    print2_sleep(f"You found a necklace on the {character}'s neck and the necklace",
+                  f" had a golden key emblazoned with a symbol of a {creature}!")
     input("Please enter ANY KEY to pick it up: ")
     print("Key captured")
-    print_sleep("You must go to the dragon in the Dark forest and kill it")
-    input("Please enter ANY KEY to go to dark forest: ")
+    print_sleep(f"You must go to the {creature} in the Dark {place2} and kill it")
+    input(f"Please enter ANY KEY to go to dark {place2}: ")
     print_sleep(".")
     print_sleep(".")
     print_sleep(".")
-    dark_forest_stage(counter, True)
+    place2_stage(counter, True, randoms)
 
 
 def lose_stage(counter):
@@ -243,8 +249,9 @@ def lose_stage(counter):
     play_again(counter)
 
 
-def dark_forest_stage(counter, key, randoms):
-    print2_sleep("You are now in the dark forest, ",
+def place2_stage(counter, key, randoms):
+    place2 = randoms["place2"]
+    print2_sleep(f"You are now in the dark {place2}, ",
                   "you can hardly see in this pitch darkness.")
     print_sleep("There is the sound of leaves moving behind you")
     print_sleep("You think something is following you!")
@@ -261,14 +268,18 @@ def dark_forest_stage(counter, key, randoms):
             break
         if user_number == "2":
             counter += 2
-            print_sleep("Behind the bushes seems to be a little fairy.")
+            creatures2 = ["little fairy", "sprite", "dwarve", "goblin"]
+            creature2 = random.choice(creatures2)
+            randoms["creature2"] = creature2
+            print_sleep(f"Behind the bushes seems to be a {creature2}.")
             print2_sleep("Look! She's walking in a certain direction",
              ", follow her!")
-            little_fairy(counter, key)
+            creature2_stage(counter, key, randoms)
             break
 
 
-def little_fairy(counter, key):
+def creature2_stage(counter, key, randoms):
+    creature2 = randoms["creature2"]
     print_sleep("The little fairy has a diamond sword in her right hand")
     print_sleep("And in her left hand a wooden stick.")
     print_sleep("You have to choose one of them to fight the dragon.")
