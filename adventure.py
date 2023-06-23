@@ -280,11 +280,20 @@ def place2_stage(counter, key, randoms):
 
 def creature2_stage(counter, key, randoms):
     creature2 = randoms["creature2"]
-    print_sleep("The little fairy has a diamond sword in her right hand")
-    print_sleep("And in her left hand a wooden stick.")
-    print_sleep("You have to choose one of them to fight the dragon.")
-    print_sleep("1 - Diamond Sword")
-    print_sleep("2 - Wooden Stick")
+    powerful_weapons = ["netherite Sword", "trident", "diamond sword"]
+    powerful_weapon = random.choice(powerful_weapons)
+    poor_weapons = ["rusty sword", "wooden axe", "wooden stick"]
+    poor_weapon = random.choice(poor_weapons)
+    creature = randoms["creature"]
+    print_sleep(f"The {creature2} has a {powerful_weapon} in her right hand")
+    print_sleep(f"And in her left hand a {poor_weapon}.")
+    print_sleep(f"You have to choose one of them to fight the {creature}.")
+    # powerful weapon capitalized
+    pwc = powerful_weapon.capitalize()
+    # poor weapon capitalized
+    poowc = poor_weapon.capitalize()
+    print_sleep(f"1 - {pwc}")
+    print_sleep(f"2 - {poowc}")
     while True:
         user_number = input("Please enter 1 or 2: ")
         if user_number == "1":
