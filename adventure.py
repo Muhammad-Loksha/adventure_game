@@ -3,19 +3,19 @@ import sys
 import random
 
 
-def print2_sleep(text1, text2):
+def print2_sleep(first_text, second_text):
     """ 
     This function prints two texts in a single print and
-    sleep for 2 seconds
+    sleeps for 2 seconds
     """
-    print(text1 + text2)
+    print(f"{first_text}{second_text}")
     sleep(2)
 
 
 def print_sleep(text):
     """ 
     This function prints text and
-    sleep for a second
+    sleeps for a second
     """
     print(text)
     sleep(1)
@@ -395,5 +395,5 @@ def winning_stage(counter, randoms):
     play_again(counter)
 
 
-# call game start menu function
+# Call game start menu function
 run()
